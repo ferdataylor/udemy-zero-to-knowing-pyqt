@@ -98,7 +98,12 @@ Lesson 12:
   - Add some design and styles to your app.
     ~ HINT: Check out the module QFont and how to use the .setStyleSeet method.
 
-Lesson 15:
+
+============================
+SECTION 4: Photoshop 2.0 App
+============================
+
+Lesson 16:
 -----------
 
 
