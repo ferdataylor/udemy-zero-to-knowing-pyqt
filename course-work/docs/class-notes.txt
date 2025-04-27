@@ -103,8 +103,27 @@ Lesson 12:
 SECTION 4: Photoshop 2.0 App
 ============================
 
-Lesson 16:
+Lesson 17:
 -----------
+* Pillow: is a library for image manipulation
+  - It is a fork of the Python Imaging Library (PIL)
+  - It allows us to open, manipulate, and save many different image file formats
+  - It is a powerful library for image processing
+* QImage: is a class that allows us to manipulate images in our app
+  - Allow us to work with images as files
+* QImageFilter: is a class that allows us to apply filters to images
+  - A group of constant variables for applying filters and rotation to images
+* QImageEnhance: is a class that allows us to enhance images
+  - Classes that can be used for image enhancement, such as Saturation, Contrast, Vibrance, etc.
+
+Lesson 20:
+-----------
+* QPixmap: is a class that allows us to load images in our app
+  - Use this class from the QtGui module by giving its setPixmap() function the file path
+
+
+
+
 
 
 
