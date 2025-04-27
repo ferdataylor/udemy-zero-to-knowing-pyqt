@@ -39,6 +39,9 @@ class CalcApp(QWidget):
             # so that event handling function must be defined before this line
             button.clicked.connect(self.button_click)
             
+            #--- Button Styles ---#
+            button.setStyleSheet("QPushButton { font-size: 25px Comic Sans MS; padding: 10px; color: #948979 }")
+            
             self.grid.addWidget(button, row, col)
             
             col += 1
@@ -48,6 +51,7 @@ class CalcApp(QWidget):
 
         self.clear_button = QPushButton("Clear")
         self.delete_button = QPushButton("<")
+        
         
         #--- Design and Layout ---#
         master_layout = QVBoxLayout()
@@ -60,32 +64,17 @@ class CalcApp(QWidget):
 
         master_layout.addLayout(button_row)
 
-        self.main_window.setLayout(master_layout)
+        #--- Master Layout Styles ---#
+        master_layout.setContentsMargins(25, 25, 25, 25)
+
+        self.setLayout(master_layout)
 
         self.clear_button.clicked.connect(self.button_click)
         self.delete_button.clicked.connect(self.button_click)
-
-        #--- Styles ---#
-        # NOTE: This is a very basic style, you can customize it as you like
-        self.setStyleSheet("""
-            QWidget {
-                background-color: #2E2E2E;
-                color: #FFFFFF;
-            }
-            QLineEdit {
-                background-color: #1E1E1E;
-                color: #FFFFFF;
-                border: 1px solid #3C3C3C;
-            }
-            QPushButton {
-                background-color: #3C3C3C;
-                color: #FFFFFF;
-                border: 1px solid #3C3C3C;
-            }
-            QPushButton:hover {
-                background-color: #4E4E4E;
-            }
-        """)
+        
+        #--- Clear & Delete Button Styles ---#
+        self.clear_button.setStyleSheet("QPushButton { font-size: 25px Comic Sans MS; padding: 10px; color: #F7AD45 }")
+        self.delete_button.setStyleSheet("QPushButton { font-size: 25px Comic Sans MS; padding: 10px; color: #F7AD45 }")
 
 
 
@@ -135,5 +124,28 @@ if __name__ == "__main__":
     # This is where the app is created and run
     app = QApplication([])
     main_window = CalcApp()
+    
+    #--- Styles ---#
+    main_window.setStyleSheet("""
+        QWidget {
+            background-color: #393E46;
+            color: #FFFFFF;
+        }
+        # QLineEdit {
+        #     background-color: #1E1E1E;
+        #     color: #FFFFFF;
+        #     border: 1px solid #3C3C3C;
+        # }
+        # QPushButton {
+        #     background-color: #3C3C3C;
+        #     color: #FFFFFF;
+        #     border: 1px solid #3C3C3C;
+        # }
+        # QPushButton:hover {
+        #     background-color: #4E4E4E;
+        # }
+    """)
+
+    
     main_window.show()
     app.exec_()
