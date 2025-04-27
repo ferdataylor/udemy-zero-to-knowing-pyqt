@@ -1,0 +1,109 @@
+++++++++++++
+PyQt6 NOTES:
+++++++++++++
+
+
+
+===================
+INTRODUCTION: Setup
+===================
+
+* Using Python v3.11 through Brew
+* will be using PyQt5, Pillow, MatplotLib
+
+
+===============================
+SECTION 2: Fundamentals of PyQt
+===============================
+
+Lesson 1: 
+----------
+* Layout: How can we breakdown an app to the design basics of the rows and columns.
+* The Code Burger:
+  - The order of steps we must take in order to design an app in PyQt and get it to open and run accordingly.
+  1. All imports: Must have all imports at the top of the code.
+  2. Main App Objects and Settings: Create all objects and settings like the size and title of the app.
+  3. Create all Widgets needed in App: All of these can be stored at the top - in this step.
+  4. Design your Layout, add your Widgets to the Screen: We need to design our app/layout
+  5. Set the final layout to the Main window:
+  6. Show and Execute your app
+
+--> KEY POINTS:
+----------------
+* Create the object/widget, then set properties on that object/widget
+  EX: instantiate a text_box (QLineEdit), then set its font type and size
+  EX: instantiate a button (QPushButton), then set the text for the button
+  EX: instantiate a grid (QGridLayout), then put the buttons into that layout
+* If an object/widget goes into a layout, the layout has to exist first
+
+Lesson 7:
+----------
+* In our Random Word Maker app, we have 3 rows that are held in one master column.
+* For the layout we will use QVBoxLayout and QHBoxLayout.
+  - We have to create all of the objects/widgets below
+  - We are creating 7 objects
+  - Text is a QLabel type.
+  - Once objects have been setup, we design our app
+  - Layout will have 3 row objects, rows will contain widgets/objects
+  - Then the rows have to be added to the master column in the order you want to see them
+  - Python codes from top to bottom so that's how we setup the layout
+  - row objects get added to the master_layout
+  - the master_layout is them added to the main window using "main_window.setLayout(..)
+* Linking a button to a function:
+  - button = QPushButton("Click Me")
+  - button.clicked.connect(test_function)
+    ^ This literally translates to "When this button  is Clicked  I want to connect  To this function
+
+
+=========================
+SECTION 3: Calculator App
+=========================
+
+Lesson 10:
+-----------
+* Interactive Calculator:
+* QGridLayout is a widget that is row first column second setup
+  - coordinates are top to bottom since we are programming in Python - NOT like pixel locations.
+  - (row, column) are how parameters work
+      [(0,0) (0,1) (0,2) (0,3)]
+      [(1,0) (1,1) (1,2) (1,3)]
+      [(2,0) (2,1) (2,2) (2,3)]
+      [(3,0) (3,1) (3,2) (3,2)]
+      [(4,0) (4,1) (4,2) (4,3)]
+      [(5,0) (5,1) (5,2) (5,3)]
+* Inital App Design and Setup:
+  - Pseudocode:
+    ~ for button_text in a list of buttons:
+      1. Create a new QPushButton( button_text )
+      2. Create an event for that button
+      3. Add the Button to our QGridLayout
+      4. Increase row and column by 1
+  - Each iteration in the loop is one button, the counter variables are row & col
+
+Lesson 12:
+-----------
+* `obj.text()`: the text() method is linked to an object and gets the text value of that object (button, text_box, etc.).
+* `eval()`: evaluates an expression - if the expression is valid/allowed, it'll run
+  - evaluates the experssion we collected from the input field
+    EX: if you clicked "3 + 5" that needs to be evaluated then changed to 15
+* `clear()`: can be linked to any objects by adding it to the object
+  - it is a pyqt method
+* `my_string[:-1]`: how to cut an element from a string in Python
+* Problem: current problem with objects is that all the buttons have the same target of event (like in JavaScript) and we need a way to tell them appart
+  - The following method is only necessary if we are making one function for our entire application.
+  - `app.sender()`: this is how we facilitate differentiation of multiple event sources connected to the same event target.
+* Use try/catch block for operations outside of normal functionality.
+* Remaster Challenge:
+  - Create a Class based application: build your own class and refactor your code so everything is within One Class.
+  - Add some design and styles to your app.
+    ~ HINT: Check out the module QFont and how to use the .setStyleSeet method.
+
+Lesson 15:
+-----------
+
+
+
+
+
+
+
