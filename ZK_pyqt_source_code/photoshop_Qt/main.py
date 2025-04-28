@@ -80,7 +80,7 @@ def filter(files, extensions):
 def getWorkDirectory():
     global working_directory
     working_directory = QFileDialog.getExistingDirectory()
-    extensions = ['.jpg','.jpeg','png','.svg']
+    extensions = ['.jpg','.jpeg','.png','.svg']
     filenames = filter(os.listdir(working_directory), extensions)
     file_list.clear()
     for filename in filenames:
@@ -116,7 +116,8 @@ class Editor():
         image = image.scaled(w,h, Qt.KeepAspectRatio)
         picture_box.setPixmap(image)
         picture_box.show()
-        
+
+
     def transformImage(self, transformation):
         transformations = {
                 "B/W": lambda image: image.convert("L"),
@@ -137,6 +138,8 @@ class Editor():
         image_path = os.path.join(working_directory,self.save_folder,self.filename)
         self.show_image(image_path)
         
+
+
 
     def apply_filter(self, filter_name):
         if filter_name == "Original":

@@ -121,6 +121,13 @@ Lesson 20:
 * QPixmap: is a class that allows us to load images in our app
   - Use this class from the QtGui module by giving its setPixmap() function the file path
 
+Lesson 23:
+-----------
+* Lambda Functions: are anonymous functions that can be used to create small, one-time functions
+  - They are often used as arguments to higher-order functions
+  - They are defined using the lambda keyword
+  - They can take any number of arguments, but can only have one expression
+* 
 
 
 
