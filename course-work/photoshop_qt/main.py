@@ -127,73 +127,81 @@ class Editor():
         picture_box.show()
 
 
-    def palettedToRgb(self):
-        # NOTE: Have to convert the Paletted image (i.e., image in P mode)to RGB before applying filters
-        if self.image.mode == "P":
-            self.image = self.image.convert("RGB")
+    # def palettedToRgb(self):
+    #     # NOTE: Have to convert the Paletted image (i.e., image in P mode)to RGB before applying filters
+    #     if self.image.mode == "P":
+    #         self.image = self.image.convert("RGB")
 
 
     def gray(self):
-        self.palettedToRgb()
+        # self.palettedToRgb()
         self.image = self.image.convert("L")
-        self.show_image(os.path.join(working_directory, self.filename))
+        self.save_image()
         image_path = os.path.join(working_directory, self.save_folder, self.filename)
         self.image.save(image_path)
+        self.show_image(os.path.join(working_directory, self.filename))
 
     def color(self):
-        self.palettedToRgb()
+        # self.palettedToRgb()
         self.image = ImageEnhance.Color(self.image).enhance(1.2)
-        self.show_image(os.path.join(working_directory, self.filename))
+        self.save_image()
         image_path = os.path.join(working_directory, self.save_folder, self.filename)
         self.image.save(image_path)
+        self.show_image(os.path.join(working_directory, self.filename))
 
     def contrast(self):
-        self.palettedToRgb()
+        # self.palettedToRgb()
         self.image = ImageEnhance.Contrast(self.image).enhance(1.2)
-        self.show_image(os.path.join(working_directory, self.filename))
+        self.save_image()
         image_path = os.path.join(working_directory, self.save_folder, self.filename)
         self.image.save(image_path)
+        self.show_image(os.path.join(working_directory, self.filename))
 
     def blur(self):
-        self.palettedToRgb()
+        # self.palettedToRgb()
         self.image = self.image.filter(ImageFilter.BLUR)
-        self.show_image(os.path.join(working_directory, self.filename))
+        self.save_image()
         image_path = os.path.join(working_directory, self.save_folder, self.filename)
         self.image.save(image_path)
+        self.show_image(os.path.join(working_directory, self.filename))
 
     def sharpen(self):
-        self.palettedToRgb()
+        # self.palettedToRgb()
         self.image = self.image.filter(ImageFilter.SHARPEN)
-        self.show_image(os.path.join(working_directory, self.filename))
+        self.save_image()
         image_path = os.path.join(working_directory, self.save_folder, self.filename)
         self.image.save(image_path)
+        self.show_image(os.path.join(working_directory, self.filename))
 
     def mirror(self):
-        self.palettedToRgb()
+        # self.palettedToRgb()
         self.image = self.image.transpose(Image.FLIP_LEFT_RIGHT)
-        self.show_image(os.path.join(working_directory, self.filename))
+        self.save_image()
         image_path = os.path.join(working_directory, self.save_folder, self.filename)
         self.image.save(image_path)
+        self.show_image(os.path.join(working_directory, self.filename))
 
     def left(self):
-        self.palettedToRgb()
+        # self.palettedToRgb()
         self.image = self.image.transpose(Image.ROTATE_90)
-        self.show_image(os.path.join(working_directory, self.filename))
+        self.save_image()
         image_path = os.path.join(working_directory, self.save_folder, self.filename)
         self.image.save(image_path)
+        self.show_image(os.path.join(working_directory, self.filename))
 
     def right(self):
-        self.palettedToRgb()
+        # self.palettedToRgb()
         self.image = self.image.transpose(Image.ROTATE_270)
-        self.show_image(os.path.join(working_directory, self.filename))
+        self.save_image()
         image_path = os.path.join(working_directory, self.save_folder, self.filename)
         self.image.save(image_path)
+        self.show_image(os.path.join(working_directory, self.filename))
 
 
 
 
     def apply_filter(self, filter_name):
-        self.palettedToRgb()
+        # self.palettedToRgb()
         if filter_name == "Original":
             self.image = self.original.copy()
         else:
