@@ -263,7 +263,7 @@ main = Editor()
 
 btn_folder.clicked.connect(getWorkingDirectory)
 file_list.currentRowChanged.connect(displayImage)
-filter_box.currentTextChanged.connect(handle_filter)
+filter_box.currentTextChanged.connect(handle_filter) # handle_filter call here!
 
 # btn_left = QPushButton("Left")
 # btn_right = QPushButton("Right")
