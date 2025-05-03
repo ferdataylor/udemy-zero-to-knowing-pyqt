@@ -1,2 +1,6 @@
 qtenv/
 .venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
