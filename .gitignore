@@ -1,6 +1,8 @@
 qtenv/
 .venv/
 edits/*.*
+expense.db
+
 __pycache__/
 *.py[cod]
 *.pyo

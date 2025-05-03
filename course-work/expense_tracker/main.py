@@ -27,7 +27,7 @@ class ExpenseApp(QWidget):  #QWidget is the base class here
         self.delete_button = QPushButton("Delete Expense")
         
         self.add_button.clicked.connect(self.add_expense)
-        # self.delete_button.clicked.connect(self.delete_expense)
+        self.delete_button.clicked.connect(self.delete_expense)
         
         self.table = QTableWidget()
         self.table.setColumnCount(5) #Id, Date, Category, Amount, Description
@@ -188,6 +188,14 @@ class ExpenseApp(QWidget):  #QWidget is the base class here
             category = query.value(0)
             self.dropdown.addItem(category)
         
+        # NOTE:
+        # Best practices for the appropriate order of clearing & loading the table
+        # after adding or deleting an expense is to clear the input fields first
+        # and then load the table. This ensures that the user sees the updated data
+        # in the table after they have added or deleted an expense.  If you reverse 
+        # this order, the user may momentarily see the old input values in the table 
+        # before they are cleared causing the user to be confused.
+        
         # Clear the input fields
         self.date_box.setDate(QDate.currentDate())
         self.dropdown.setCurrentIndex(0)
@@ -195,6 +203,65 @@ class ExpenseApp(QWidget):  #QWidget is the base class here
         self.description.clear()
         
         self.load_table()
+    
+    # Steps to Delete Expenses
+    #
+    # 1.  Get the selected row from the table - .currentRow()
+    # 2.  Check if a row is selected (.i.e., that we did indeed choose a row)
+    # 3.  Create a variable that gets the ID of the selected row
+    # 4.  Create a Question Pop-up to confirm the deletion [ Yes/No ] - .question()
+    # 5.  If yes, perpare a query - DELETE FROM expenses WHERE id = the value
+    # 6.  Load our new table with the updated database
+    # 7.  Clear the input fields
+    # 8.  If no, do nothing
+    def delete_expense(self):
+        selected_row = self.table.currentRow()
+        if selected_row == -1:
+            QMessageBox.warning(self, "No Selection Made", "Please select an expense to delete.")
+            return
+        
+        # Get the ID of the selected row
+        expense_id = int(self.table.item(selected_row, 0).text())
+        
+        # Confirm deletion
+        confirm = QMessageBox.question(self, "Confirm Deletion", "Are you sure you want to delete this expense?", QMessageBox.Yes | QMessageBox.No)
+        if confirm == QMessageBox.No:
+            return
+        # If yes, prepare the query to delete the selected expense
+        else:
+            # Delete the selected row from the database
+            query = QSqlQuery()
+            query.prepare("DELETE FROM expenses WHERE id = ?")
+            query.addBindValue(expense_id)
+            
+            # Execute the query
+            if not query.exec_():
+                QMessageBox.critical(None, "Database Error", "Unable to delete expense")
+                print("Unable to add expense")
+                return
+            
+            # Load the categories from the database
+            query.exec_("SELECT DISTINCT category FROM expenses")
+            while query.next():
+                category = query.value(0)
+                self.dropdown.addItem(category)
+            
+            # NOTE:
+            # Best practices for the appropriate order of clearing & loading the table
+            # after adding or deleting an expense is to clear the input fields first
+            # and then load the table. This ensures that the user sees the updated data
+            # in the table after they have added or deleted an expense.  If you reverse 
+            # this order, the user may momentarily see the old input values in the table 
+            # before they are cleared causing the user to be confused.
+            
+            # Clear the input fields
+            self.date_box.setDate(QDate.currentDate())
+            self.dropdown.setCurrentIndex(0)
+            self.amount.clear()
+            self.description.clear()
+            
+            # Load the updated data from the database
+            self.load_table()
 
 
 
