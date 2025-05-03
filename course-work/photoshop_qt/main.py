@@ -205,6 +205,19 @@ class Editor():
         if filter_name == "Original":
             self.image = self.original.copy()
         else:
+            # 'lambda' is a small anonymous function that can take any number of arguments, but can only have one expression.
+            #
+            # When you have a bunch of filters or things you have to do, 
+            # you can use a dictionary where each of the widgets' text values
+            # would be the key and the value would be a function that is 
+            # triggered only once.
+            #
+            # 'mapping' is the dictionary, and the key is the filter name (i.e., "B/W", "Color", etc.)
+            # The value is a lambda function that takes the 'image' as a parameter and applies it to the filter.
+            # This is a more efficient way to handle multiple filters.
+            #
+            # NOTE: You can also use a dictionary to map the filter names to the actual filter functions
+            # in the PIL library, but for this example, we are using lambda functions.
             mapping = {
                 "B/W": lambda image: image.convert("L"),
                 "Color": lambda image: ImageEnhance.Color(image).enhance(1.2),
@@ -231,10 +244,9 @@ class Editor():
 
 
 def handle_filter():
-    if file_list.currentRow() >= 0:
+    if file_list.currentRow() >= 0: # Check if an image is selected
         select_filter = filter_box.currentText()
         main.apply_filter(select_filter)
-
 
 
 
