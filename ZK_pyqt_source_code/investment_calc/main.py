@@ -72,24 +72,37 @@ class FinanceApp(QMainWindow):
         self.dark_mode.stateChanged.connect(self.toggle_mode)
         
         self.apply_styles()
-          
+        
     def apply_styles(self):
         self.setStyleSheet(
             """
             FinanceApp {
                 background-color: #f0f0f0;
+                color: #000000;
             }
 
             QLabel, QLineEdit, QPushButton {
                 background-color: #f8f8f8;
+                color: #000000;
             }
 
             QTreeView {
                 background-color: #ffffff;
+                color: #000000;
+            }
+            
+            QMessageBox {
+                background-color: #ffffff;
+                color: #000000;
+            }
+            
+            QCheckBox {
+                background-color: #f8f8f8;
+                color: #000000;
             }
             """
         )
-         
+        
         if self.dark_mode.isChecked():
             self.setStyleSheet(
             """
@@ -108,6 +121,7 @@ class FinanceApp(QMainWindow):
                 }
                 """
         )
+        
         
     def toggle_mode(self):
         self.apply_styles()
@@ -135,7 +149,7 @@ class FinanceApp(QMainWindow):
             
         # Update my chart with our data
         self.figure.clear()
-        plt.style.use('seaborn')
+        plt.style.use('seaborn-v0_8')
         ax = self.figure.subplots()
         years = list(range(1, num_years+1))
         totals = [initial_investment * (1 + interest_rate/100)**year for year in years]
@@ -167,7 +181,7 @@ class FinanceApp(QMainWindow):
             QMessageBox.information(self,"Save Results","Results we saved to your Folder!")
         else:
             QMessageBox.warning(self,"Save Results","No directory selected")
-             
+    
     
     def reset(self):
         self.rate_input.clear()
