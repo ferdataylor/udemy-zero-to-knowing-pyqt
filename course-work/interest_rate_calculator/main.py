@@ -246,12 +246,11 @@ class FinanceApp(QMainWindow):
     
     # Course: save the QTreeView to a CSV file in a subfolder
     def save_data(self):
-        dir_path = QFileDialog.getExistingDirectory(self, "Select Directory")
-        if dir_path:
+        if dir_path := QFileDialog.getExistingDirectory(self, "Select Directory"):
             # Create a subfolder within the selected directory
             folder_path = os.path.join(dir_path, "Saved/")
             os.makedirs(folder_path, exist_ok=True)
-            
+
             # Save the results to a CSV file within the subfolder
             file_path = os.path.join(folder_path, "results.csv")
             with open(file_path, "w") as file:
@@ -259,11 +258,15 @@ class FinanceApp(QMainWindow):
                 for row in range( self.model.rowCount() ):  #<-- our treeview is inside the model
                     year = self.model.index(row, 0).data()
                     total = self.model.index(row, 1).data()
-                    file.write("{}, {}\n".format(year, total))
-            
+                    file.write(f"{year}, {total}\n")
+
             plt.savefig(os.path.join(folder_path, "chart.png"))
-            
-            QMessageBox.information(self, "Save Results", "Results saved successfully in '{}'".format(folder_path))
+
+            QMessageBox.information(
+                self,
+                "Save Results",
+                f"Results saved successfully in '{folder_path}'",
+            )
         else:
             QMessageBox.warning(self, "Save Results", "No directory selected.")
     
