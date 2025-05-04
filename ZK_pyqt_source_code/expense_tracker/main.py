@@ -126,9 +126,9 @@ class ExpenseApp(QWidget):
         
         query = QSqlQuery()
         query.prepare("""
-                      INSERT INTO expenses (date, category, amount, description)
-                      VALUES (?, ?, ?, ?)
-                      """)
+            INSERT INTO expenses (date, category, amount, description)
+            VALUES (?, ?, ?, ?)
+            """)
         query.addBindValue(date)
         query.addBindValue(category)
         query.addBindValue(amount)

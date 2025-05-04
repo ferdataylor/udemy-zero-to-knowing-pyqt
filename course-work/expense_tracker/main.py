@@ -1,7 +1,7 @@
 #--- Import Modules ---#
 import sys
-from PyQt5.QtCore import QDate # for misc things like alignment
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QLineEdit, QComboBox, QDateEdit, QTableWidget, QTableWidgetItem, QMessageBox, QHBoxLayout, QVBoxLayout
+from PyQt5.QtCore import Qt, QDate # for misc things like alignment
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QLineEdit, QComboBox, QDateEdit, QTableWidget, QTableWidgetItem, QMessageBox, QHeaderView, QHBoxLayout, QVBoxLayout
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 from PyQt5.QtGui import QIcon, QFont
 
@@ -19,6 +19,7 @@ class ExpenseApp(QWidget):  #QWidget is the base class here
         
         # Create Objects
         self.date_box = QDateEdit()
+        self.date_box.setDate(QDate.currentDate()) # current date set on app at startup
         self.dropdown = QComboBox()
         self.amount = QLineEdit()
         self.description = QLineEdit()
@@ -33,16 +34,24 @@ class ExpenseApp(QWidget):  #QWidget is the base class here
         self.table.setColumnCount(5) #Id, Date, Category, Amount, Description
         header_labels = ["ID", "Date", "Category", "Amount", "Description"]
         self.table.setHorizontalHeaderLabels(header_labels)
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.table.sortByColumn(1, Qt.DescendingOrder)
         
-        dropdown_items = ["Select Category", "Food", "Transportation", "Rent", "Shopping", "Entertainment", "Bills", "Other"]
+        dropdown_items = ["Food", "Transportation", "Rent", "Shopping", "Entertainment", "Bills", "Other"]
+        
         self.dropdown.addItems(dropdown_items)
         self.dropdown.setCurrentIndex(0)
-        self.dropdown.model().item(0).setEnabled(False)  # Disable the placeholder item
         self.dropdown.setEditable(False)
         self.dropdown.setInsertPolicy(QComboBox.InsertAtTop)
         self.dropdown.setDuplicatesEnabled(False)
         self.dropdown.setMaxVisibleItems(10)
         self.dropdown.setMinimumContentsLength(10)            
+        
+        
+        #--- Style App - CSS ---#
+        
+        self.styleQTableWidgetQt() # Use for MacOS
+        # self.styleQTableWidgetCSS() # Use for Windows
         
         
         #--- Design App with Layouts ---#
@@ -55,8 +64,9 @@ class ExpenseApp(QWidget):  #QWidget is the base class here
         
         self.row1.addWidget(QLabel("Date:"))
         self.row1.addWidget(self.date_box)
-        self.row1.addWidget(QLabel("Category:"))
-        self.row1.addWidget(self.dropdown)
+        self.row1.addStretch(35)
+        self.row1.addWidget(QLabel("Category:"), 20)
+        self.row1.addWidget(self.dropdown, 80)
         
         self.row2.addWidget(QLabel("Amount:"))
         self.row2.addWidget(self.amount)
@@ -71,26 +81,6 @@ class ExpenseApp(QWidget):  #QWidget is the base class here
         self.master_layout.addLayout(self.row2)
         self.master_layout.addLayout(self.row3)
         
-        
-        # # Set up the table formatting
-        # self.table.setColumnWidth(0, 50)
-        # self.table.setColumnWidth(1, 100)
-        # self.table.setColumnWidth(2, 100)
-        # self.table.setColumnWidth(3, 100)
-        # self.table.setColumnWidth(4, 150)
-        # self.table.setRowCount(0)
-        # self.table.setEditTriggers(QTableWidget.NoEditTriggers)
-        # self.table.setSelectionBehavior(QTableWidget.SelectRows)
-        # self.table.setSelectionMode(QTableWidget.SingleSelection)
-        # self.table.setAlternatingRowColors(True)
-        # self.table.setStyleSheet("QTableWidget::item:selected { background-color: #A0C4FF; }")
-        # self.table.setStyleSheet("QTableWidget::item { background-color: #FFFFFF; }")
-        # self.table.setStyleSheet("QTableWidget::item { border: 1px solid #000000; }")
-        # self.table.setStyleSheet("QTableWidget::item { padding: 5px; }")
-        # self.table.setStyleSheet("QTableWidget::item { font-size: 14px; }")
-        # self.table.setStyleSheet("QTableWidget::item { font-family: Arial; }")
-        # self.table.setStyleSheet("QTableWidget::item { color: #000000; }")
-        
         # Add the table to the master layout
         self.master_layout.addWidget(self.table)
         
@@ -99,7 +89,99 @@ class ExpenseApp(QWidget):  #QWidget is the base class here
         
         self.setup_db_connection()
         self.load_table()
+    
+    
+    #-- Style App --#
+    
+    # Qt Style Sheet
+    def styleQTableWidgetQt(self):
+        self.table.setColumnWidth(0, 50)
+        self.table.setColumnWidth(1, 100)
+        self.table.setColumnWidth(2, 100)
+        self.table.setColumnWidth(3, 100)
+        self.table.setColumnWidth(4, 150)
         
+        self.table.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.table.setSelectionBehavior(QTableWidget.SelectRows)
+        self.table.setSelectionMode(QTableWidget.SingleSelection)
+        self.table.setAlternatingRowColors(True)
+        
+        self.table.setStyleSheet("QTableWidget::item:selected { background-color: #A0C4FF; }")
+        self.table.setStyleSheet("QTableWidget::item { background-color: #FFFFFF; }")
+        self.table.setStyleSheet("QTableWidget::item { border: 1px solid #000000; }")
+        self.table.setStyleSheet("QTableWidget::item { padding: 5px; }")
+        self.table.setStyleSheet("QTableWidget::item { font-size: 14px; }")
+        self.table.setStyleSheet("QTableWidget::item { font-family: Arial; }")
+        self.table.setStyleSheet("QTableWidget::item { color: #FFFAEC; }")
+    
+    
+    #  CSS Style Sheet
+    def styleQTableWidgetCSS(self):
+        self.table.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.table.setSelectionBehavior(QTableWidget.SelectRows)
+        self.table.setSelectionMode(QTableWidget.SingleSelection)
+        self.table.setAlternatingRowColors(True)
+
+        self.setStyleSheet("""
+            QWidget {background-color: #DFD0B8;}
+            
+            QLabel{
+                    color: #393E46;
+                    font-size: 14px;
+            }
+            
+            QLineEdit, QComboBox, QDateEdit{
+                    background-color: #F2EFE7;
+                    color: #27445D;
+                    border: 1px solid #888888;
+                    border-radius: 5px;
+                    padding: 5px;
+            }
+        
+            QDateEdit::up-arrow {
+                    image: url(up-arrow-icon.png); /* Replace with your custom up-arrow icon */
+                    width: 10px;
+                    height: 10px;
+            }
+            
+            QDateEdit::down-arrow {
+                    image: url(down-arrow-icon.png); /* Replace with your custom down-arrow icon */
+                    width: 10px;
+                    height: 10px;
+            }
+            
+            QTableWidget{
+                    background-color: #F2EFE7;
+                    color: #27445D;
+                    border: 1px solid #888888;
+                    border-radius: 5px;
+                    selection-background-color: #9ACBD0;
+            }
+            
+            QHeaderView::section{
+                    background-color: #9ACBD0;
+                    color: #393E46;
+                    font-size: 14px;
+                    font-family: Arial;
+                    border: 1px solid #888888;
+                    padding: 5px;
+            }
+            
+            QPushButton{
+                    background-color: #006A71;
+                    color: #F2EFE7;
+                    border: none;
+                    border-radius: 5px;
+                    padding: 8px 16px;
+                    font-size: 14px;
+            }
+            
+            QPushButton:hover{background-color: #06202B;}
+        """)
+    
+    
+    #-- Database Setup --#
+    
     def setup_db_connection(self):        
             # Setup Database Connection
             database = QSqlDatabase.addDatabase("QSQLITE")
@@ -120,9 +202,6 @@ class ExpenseApp(QWidget):  #QWidget is the base class here
                             description TEXT
                         )
                         """)
-        
-    
-    #-- Create/Load the Database --#
     
     # Steps to Load Expenses Table
     #
@@ -153,7 +232,6 @@ class ExpenseApp(QWidget):  #QWidget is the base class here
             self.table.setItem(row_position, 2, QTableWidgetItem(category))
             self.table.setItem(row_position, 3, QTableWidgetItem(str(amount)))
             self.table.setItem(row_position, 4, QTableWidgetItem(description))
-    
     
     # Steps to Add New Expenses
     #
@@ -264,8 +342,8 @@ class ExpenseApp(QWidget):  #QWidget is the base class here
             self.load_table()
 
 
+#--- Run the App ---#
 
-# Run the App
 if __name__ == "__main__":
     app = QApplication([])
     window = ExpenseApp()
@@ -277,6 +355,7 @@ if __name__ == "__main__":
 
 
 #--- Notes ---#
+
 # - The QTableWidget is a powerful widget that allows you to display and edit tabular data in a grid format.
 # - The QTableWidget is a subclass of QTableView, which is a more general-purpose table view that can be used to display data from a model.
 # - The QTableWidget is a good choice for simple applications where you want to display and edit data in a table format.
